@@ -1,0 +1,96 @@
+[build-system]
+requires = ["pdm-backend", "pdm-build-locked"]
+build-backend = "pdm.backend"
+
+# See also https://daniel.feldroy.com/posts/2023-08-pypi-project-urls-cheatsheet
+[project.urls]
+homepage = 'https://github.com/alexeyshockov/fingerscrossed'
+changelog = 'https://github.com/alexeyshockov/fingerscrossed/blob/main/CHANGELOG.md'
+
+[project]
+name = "fingerscrossed"
+description = "Logging handler wrapper, to buffer the logs and flush them only if something goes wrong"
+requires-python = ">=3.10"
+dynamic = ["version"]
+readme = "pypi_readme.md"
+license = { text = "MIT" }
+authors = [
+    { name = "Alexey Shokov" },
+]
+keywords = [
+    "logging", "structlog",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Typing :: Typed",
+    "Topic :: Software Development",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+]
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "python-dotenv",
+
+    "structlog",
+    "loguru",
+
+    "rich",
+    "anyio ~=4.8",
+    "fastapi",
+    "uvicorn",
+]
+unit-tests = [
+    "pytest ~=8.1",
+    "pytest-mock ~=3.14",
+    "pytest-cov ~=6.0",
+    "coverage[toml] ~=7.6",
+]
+
+[tool.pyright]
+include = ["fingerscrossed"]
+
+[[tool.mypy.overrides]]
+follow_untyped_imports = true
+
+[tool.ruff]
+line-length = 120
+format.docstring-code-format = true
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "C",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+    "Q",  # flake8-quotes
+]
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.pdm]
+distribution = true
+
+[tool.pdm.version]
+source = "scm"
+write_to = "fingerscrossed/_version.py"
+write_template = "__version__ = '{}'"
+
+[tool.pdm.build]
+excludes = ["./**/.git", "tests", "examples"]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = [
+    "tests",
+]
+python_files = [
+    "*.py",
+]
