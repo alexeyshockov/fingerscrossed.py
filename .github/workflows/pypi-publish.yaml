@@ -1,0 +1,22 @@
+name: Publish to PyPI
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pdm-project/setup-pdm@v4
+        with:
+          python-version-file: ".python-version"
+      - run: pdm install
+      - run: pdm build
+      - env:
+          PDM_PUBLISH_USERNAME: __token__
+          PDM_PUBLISH_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+        run: pdm publish --no-build
