@@ -1,8 +1,12 @@
-name: Publish to PyPI
+name: Publish to Test PyPI
 
 on:
-  release:
-    types: [ published ]
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   publish:
@@ -19,5 +23,5 @@ jobs:
       - run: pdm build
       - env:
           PDM_PUBLISH_USERNAME: __token__
-          PDM_PUBLISH_PASSWORD: ${{ secrets.PYPI_TOKEN }}
-        run: pdm publish --no-build
+          PDM_PUBLISH_PASSWORD: ${{ secrets.TEST_PYPI_TOKEN }}
+        run: pdm publish --no-build --repository testpypi
