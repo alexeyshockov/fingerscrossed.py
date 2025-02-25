@@ -19,7 +19,7 @@ jobs:
           python-version-file: ".python-version"
           cache: true
       - name: pdm install
-        run: >
+        run: |
           pdm config python.use_venv False
           pdm install --frozen-lockfile --no-editable
       - name: pytest
