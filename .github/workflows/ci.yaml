@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  sonarcloud:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Disable shallow clone (required for SonarQube to work properly)
+          fetch-depth: 0
+      - uses: pdm-project/setup-pdm@v4
+        with:
+          python-version-file: ".python-version"
+          cache: true
+      - name: pdm install
+        run: pdm install --no-lock --no-editable
+      - name: pytest
+        run: pytest --cov-report=term --cov-report=xml --cov-branch --cov -v
+      - uses: SonarSource/sonarqube-scan-action@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

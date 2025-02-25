@@ -7,9 +7,9 @@ from structlog.contextvars import bound_contextvars
 from structlog.typing import FilteringBoundLogger
 
 from fingerscrossed import fingers_crossed
-from show_off import configure
+from show_off_structlog_stdlib import configure
 
-# logger = logging.getLogger("our.app")
+
 logger: FilteringBoundLogger = structlog.get_logger("our.app")
 
 

@@ -1,5 +1,10 @@
 # Python logging, fingers crossed
 
+[![PyPI package version](https://img.shields.io/pypi/v/fingerscrossed)](https://pypi.org/project/fingerscrossed/)
+![Python versions](https://img.shields.io/pypi/pyversions/fingerscrossed)
+<br>
+[![Code coverage](https://img.shields.io/sonar/coverage/alexeyshockov_fingerscrossed?server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/project/overview?id=alexeyshockov_fingerscrossed)
+
 A custom sink for [Python standard logging](https://docs.python.org/3/library/logging.html) / 
 [structlog](https://github.com/hynek/structlog) / [loguru](https://github.com/delgan/loguru) to buffer the logs inside 
 a transaction and only write them if something goes wrong ("fingers crossed" pattern).

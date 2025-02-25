@@ -6,7 +6,7 @@ from structlog.typing import WrappedLogger
 
 from ._core import current_ops
 
-__all__ = ["FingersCrossedLoggerFactory"]
+__all__ = ["FingersCrossedLoggerFactory", "FingersCrossedLogger"]
 
 LoggerT = TypeVar("LoggerT", bound=WrappedLogger)
 

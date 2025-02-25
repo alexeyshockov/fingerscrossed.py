@@ -1,6 +1,6 @@
 from collections.abc import Collection
 from contextlib import ExitStack
-from logging import Handler, LogRecord, Formatter, Filter
+from logging import Handler, LogRecord, Formatter
 from sys import stderr
 from typing import final, TextIO, Any
 from unittest.mock import patch
@@ -54,6 +54,10 @@ class FingersCrossedHandler(Handler):
             pre_compute.add("process")
         return cls(target, pre_compute=pre_compute)
 
+    level = property(lambda self: self._wrapped.level, lambda self, value: None)
+    formatter = property(lambda self: self._wrapped.formatter, lambda self, value: None)
+    filters = property(lambda self: self._wrapped.filters, lambda self, value: None)
+
     def __init__(self, target: Handler, /, *, pre_compute: Collection[str] = ()):
         self._wrapped = target
         self.pre_compute = tuple(pre_compute)
@@ -72,19 +76,9 @@ class FingersCrossedHandler(Handler):
         self.flush = target.flush
 
     def createLock(self):
-        self.lock = self._wrapped.lock
-
-    @property
-    def level(self) -> int:
-        return self._wrapped.level
-
-    @property
-    def formatter(self) -> Formatter:
-        return self._wrapped.formatter
-
-    @property
-    def filters(self) -> list[Filter]:
-        return self._wrapped.filters
+        self.lock = None
+        if hasattr(self._wrapped, "lock"):
+            self.lock = self._wrapped.lock
 
     def __repr__(self) -> str:
         return f"<{self.__class__.__name__}(wrapped={self._wrapped!r})>"

@@ -2,61 +2,27 @@ import logging
 from functools import partial
 
 import anyio
-import structlog
 from anyio import create_task_group
-from structlog.contextvars import bound_contextvars
-from structlog.typing import FilteringBoundLogger
 
 from fingerscrossed import fingers_crossed
 
 
 def configure():
-    """
-    Configure structlog to sink everything to standard library logging, as per
-    https://www.structlog.org/en/stable/standard-library.html#rendering-using-structlog-based-formatters-within-logging,
-    and wrap the final logging handler.
-    """
     from sys import stdout
     from fingerscrossed import FingersCrossedStreamHandler
 
-    shared_processors = [
-        structlog.contextvars.merge_contextvars,
-        structlog.processors.add_log_level,
-        structlog.processors.TimeStamper(fmt="iso", utc=True),
-        structlog.processors.StackInfoRenderer(),
-    ]
-    stdlib_processors = [
-        structlog.stdlib.add_logger_name,
-        structlog.stdlib.ExtraAdder(),
-    ]
-    structlog.configure(
-        processors=shared_processors + [
-            structlog.stdlib.ProcessorFormatter.wrap_for_formatter,
-        ],
-        logger_factory=structlog.stdlib.LoggerFactory(),
-        cache_logger_on_first_use=True,
-    )
-    structlog_formatter = structlog.stdlib.ProcessorFormatter(
-        foreign_pre_chain=stdlib_processors + shared_processors,
-        processors=[
-            structlog.stdlib.ProcessorFormatter.remove_processors_meta,
-            structlog.dev.ConsoleRenderer(),
-        ]
-    )
-
     root_logger = logging.getLogger()
-    root_logger.addHandler(FingersCrossedStreamHandler(stdout, formatter=structlog_formatter))
+    root_logger.addHandler(FingersCrossedStreamHandler(stdout))
     root_logger.setLevel(logging.NOTSET)
 
 
-# logger = logging.getLogger("our.app")
-logger: FilteringBoundLogger = structlog.get_logger("our.app")
+logger = logging.getLogger("our.app")
 
 
 async def req_middleware(request: int, call_next):
     try:
-        with bound_contextvars(request=request), fingers_crossed():
-            logger.debug("Request received")
+        with fingers_crossed():
+            logger.debug("Request received: %d", request)
             await call_next(request)
             logger.debug("Request processed")
     except Exception as e:
