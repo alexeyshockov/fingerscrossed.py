@@ -19,11 +19,9 @@ jobs:
           python-version-file: ".python-version"
           cache: true
       - name: pdm install
-        run: |
-          pdm config python.use_venv False
-          pdm install --frozen-lockfile --no-editable
+        run: pdm install --frozen-lockfile --no-editable
       - name: pytest
-        run: pytest --cov-report=term --cov-report=xml --cov-branch --cov -v
+        run: pdm run pytest --cov-report=term --cov-report=xml --cov-branch --cov -v
       - uses: SonarSource/sonarqube-scan-action@v5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
