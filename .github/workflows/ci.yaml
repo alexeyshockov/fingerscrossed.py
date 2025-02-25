@@ -19,7 +19,7 @@ jobs:
           python-version-file: ".python-version"
           cache: true
       - name: pdm install
-        run: pdm install --no-lock --no-editable
+        run: pdm install --group :all --no-lock --no-editable
       - name: pytest
         run: pytest --cov-report=term --cov-report=xml --cov-branch --cov -v
       - uses: SonarSource/sonarqube-scan-action@v5
