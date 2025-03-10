@@ -5,8 +5,12 @@ on:
     types: [ published ]
 
 jobs:
+  # https://pdm-project.org/latest/usage/publish/#publish-with-trusted-publishers
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      # Required for PyPI trusted publishing
+      id-token: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -15,11 +19,6 @@ jobs:
         with:
           python-version-file: ".python-version"
           cache: true
-      - name: pdm install
-        run: pdm install --no-lock --no-editable
+      - run: pdm install --no-lock --no-editable
       - run: pdm build
-      - name: pdm publish
-        env:
-          PDM_PUBLISH_USERNAME: __token__
-          PDM_PUBLISH_PASSWORD: ${{ secrets.PYPI_TOKEN }}
-        run: pdm publish --no-build
+      - run: pdm publish --no-build

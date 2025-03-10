@@ -4,8 +4,8 @@ build-backend = "pdm.backend"
 
 # See also https://daniel.feldroy.com/posts/2023-08-pypi-project-urls-cheatsheet
 [project.urls]
-homepage = 'https://github.com/alexeyshockov/fingerscrossed'
-changelog = 'https://github.com/alexeyshockov/fingerscrossed/blob/main/CHANGELOG.md'
+homepage = 'https://github.com/alexeyshockov/fingerscrossed.py'
+changelog = 'https://github.com/alexeyshockov/fingerscrossed.py/blob/main/CHANGELOG.md'
 
 [project]
 name = "fingerscrossed"

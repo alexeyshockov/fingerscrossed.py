@@ -31,7 +31,7 @@ async def add_req_info(request: Request, call_next):
 
 
 @app.get("/")
-async def awaiter(req_sec: float = 1):
+async def awaiter(req_sec: float = 0.1):
     if req_sec >= 1:
         # Triggers all the request logs to be flushed
         raise ValueError("Very high number")
