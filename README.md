@@ -5,8 +5,8 @@
 <br>
 [![Code coverage](https://img.shields.io/sonar/coverage/alexeyshockov_fingerscrossed?server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/project/overview?id=alexeyshockov_fingerscrossed)
 
-A custom sink for [Python standard logging](https://docs.python.org/3/library/logging.html) / 
-[structlog](https://github.com/hynek/structlog) / [loguru](https://github.com/delgan/loguru) to buffer the logs inside 
+A custom sink for [Python standard logging](https://docs.python.org/3/library/logging.html) /
+[structlog](https://github.com/hynek/structlog) / [loguru](https://github.com/delgan/loguru) to buffer the logs inside
 a transaction and only write them if something goes wrong ("fingers crossed" pattern).
 
 ## Installation
@@ -48,7 +48,7 @@ logger.info("Finished")
 
 ### Structlog (via standard logging)
 
-It's usual to use `structlog` with the standard logging module, [rendering everything using `structlog`'s 
+It's usual to use `structlog` with the standard logging module, [rendering everything using `structlog`'s
 `ProcessorFormatter`](https://www.structlog.org/en/stable/standard-library.html#rendering-using-structlog-based-formatters-within-logging).
 
 With this approach, the same handler decorator can be used:
