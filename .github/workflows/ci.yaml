@@ -10,7 +10,7 @@ jobs:
   sonarcloud:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           # Disable shallow clone (required for SonarQube to work properly)
           fetch-depth: 0
