@@ -1,6 +1,6 @@
 from collections.abc import Callable
 from functools import partial
-from typing import final, cast, Any, TypeVar, Generic
+from typing import Any, Generic, TypeVar, cast, final
 
 from structlog.typing import WrappedLogger
 
