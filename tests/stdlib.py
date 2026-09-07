@@ -1,8 +1,7 @@
-from logging import LogRecord, Handler, DEBUG, INFO
+from logging import DEBUG, INFO, Handler, LogRecord
 from unittest.mock import Mock
 
-from fingerscrossed import FingersCrossedHandler
-from fingerscrossed import fingers_crossed
+from fingerscrossed import FingersCrossedHandler, fingers_crossed
 
 
 def test_wrapped_filter_always_called():
@@ -11,11 +10,11 @@ def test_wrapped_filter_always_called():
     mock_handler = Mock(spec=Handler)
     mock_handler.filter = wrapped_filter
     mock_handler.emit = wrapped_emit
-    
+
     wrapped = FingersCrossedHandler(mock_handler)
     rec1 = LogRecord("test", DEBUG, "test.py", 1, "debug message", (), None)
     rec2 = LogRecord("test", INFO, "test.py", 1, "info message", (), None)
-    
+
     with fingers_crossed():
         wrapped.handle(rec1)
         wrapped_filter.assert_called_with(rec1)
@@ -34,10 +33,10 @@ def test_wrapped_format_always_called():
     mock_handler = Mock(spec=Handler)
     mock_handler.format = wrapped_format
     mock_handler.emit = wrapped_emit
-    
+
     wrapped = FingersCrossedHandler(mock_handler, pre_compute=("format",))
     rec = LogRecord("test", INFO, "test.py", 1, "test message", (), None)
-    
+
     with fingers_crossed():
         wrapped.handle(rec)
     # No flush, no errors in the transaction
