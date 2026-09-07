@@ -17,6 +17,7 @@ def configure():
     and wrap the final logging handler.
     """
     from sys import stdout
+
     from fingerscrossed import FingersCrossedStreamHandler
 
     shared_processors = [
@@ -30,7 +31,8 @@ def configure():
         structlog.stdlib.ExtraAdder(),
     ]
     structlog.configure(
-        processors=shared_processors + [
+        processors=shared_processors
+        + [
             structlog.stdlib.ProcessorFormatter.wrap_for_formatter,
         ],
         logger_factory=structlog.stdlib.LoggerFactory(),
@@ -41,7 +43,7 @@ def configure():
         processors=[
             structlog.stdlib.ProcessorFormatter.remove_processors_meta,
             structlog.dev.ConsoleRenderer(),
-        ]
+        ],
     )
 
     root_logger = logging.getLogger()
