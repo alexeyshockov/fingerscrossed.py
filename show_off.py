@@ -9,6 +9,7 @@ from fingerscrossed import fingers_crossed
 
 def configure():
     from sys import stdout
+
     from fingerscrossed import FingersCrossedStreamHandler
 
     root_logger = logging.getLogger()

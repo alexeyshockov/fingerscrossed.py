@@ -3,7 +3,7 @@ from logging import Handler
 
 from structlog.testing import CapturingLogger
 
-from fingerscrossed import fingers_crossed, FingersCrossedOp, FingersCrossedHandler
+from fingerscrossed import FingersCrossedHandler, FingersCrossedOp, fingers_crossed
 from fingerscrossed.structlog import FingersCrossedLogger
 
 
@@ -26,7 +26,7 @@ def test_custom_trigger():
     with fingers_crossed(custom_trigger):
         logger.info("just a message")
         logger.info("trigger message")
-    
+
     assert len(cl.calls) == 2
     assert cl.calls[0].method_name == "info"
     assert cl.calls[0].args == ("just a message",)

@@ -41,13 +41,10 @@ async def awaiter(request: Request):
         # Also triggers all the request logs to be flushed
         logger.error("High number")
     await anyio.sleep(req_sec)
-    return PlainTextResponse(f'Awaited {req_sec}, world!')
+    return PlainTextResponse(f"Awaited {req_sec}, world!")
 
 
-app = Starlette(
-    routes=[Route("/", awaiter)],
-    middleware=[Middleware(ReqInfoMiddleware)]
-)
+app = Starlette(routes=[Route("/", awaiter)], middleware=[Middleware(ReqInfoMiddleware)])
 
 
 if __name__ == "__main__":
