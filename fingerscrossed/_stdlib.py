@@ -1,11 +1,11 @@
 from collections.abc import Collection
 from contextlib import ExitStack
-from logging import Handler, LogRecord, Formatter
+from logging import Formatter, Handler, LogRecord
 from sys import stderr
-from typing import final, TextIO, Any
+from typing import Any, TextIO, final
 from unittest.mock import patch
 
-from ._core import current_ops, _FingersCrossedOps
+from ._core import _FingersCrossedOps, current_ops
 
 
 @final
@@ -23,6 +23,7 @@ class FingersCrossedHandler(Handler):
         def has_structlog_formatter() -> bool:
             try:
                 import structlog.stdlib
+
                 return isinstance(target.formatter, structlog.stdlib.ProcessorFormatter)
             except ImportError:
                 return False
@@ -30,6 +31,7 @@ class FingersCrossedHandler(Handler):
         def is_otel_sdk_handler() -> bool:
             try:
                 from opentelemetry.sdk._logs import LoggingHandler  # noqa
+
                 return isinstance(target, LoggingHandler)
             except ImportError:
                 return False
@@ -37,6 +39,7 @@ class FingersCrossedHandler(Handler):
         def is_structlog_handler() -> bool:
             try:
                 from structlog_extras.stdlib import ProcessorHandler  # noqa
+
                 return isinstance(target, ProcessorHandler)
             except ImportError:
                 return False

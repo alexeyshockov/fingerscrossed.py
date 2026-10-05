@@ -1,4 +1,4 @@
-from ._core import fingers_crossed, FingersCrossedOp
+from ._core import FingersCrossedOp, fingers_crossed
 from ._stdlib import FingersCrossedHandler, FingersCrossedStreamHandler
 
 try:
@@ -13,4 +13,3 @@ __all__ = [
     "FingersCrossedHandler",
     "FingersCrossedStreamHandler",
 ]
-
