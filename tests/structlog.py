@@ -11,7 +11,7 @@ def test_basic_logging():
     with fingers_crossed():
         logger.info("test message", x=1)
         logger.error("error message", y=2)  # Triggers emission
-    
+
     assert len(cl.calls) == 2
     assert cl.calls[0].method_name == "info"
     assert cl.calls[0].args == ("test message",)
