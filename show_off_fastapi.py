@@ -9,7 +9,6 @@ from structlog.typing import FilteringBoundLogger
 from fingerscrossed import fingers_crossed
 from show_off_structlog_stdlib import configure
 
-
 logger: FilteringBoundLogger = structlog.get_logger("our.app")
 
 
@@ -39,7 +38,7 @@ async def awaiter(req_sec: float = 0.1):
         # Also triggers all the request logs to be flushed
         logger.error("High number")
     await anyio.sleep(req_sec)
-    return f'Awaited {req_sec}, world!'
+    return f"Awaited {req_sec}, world!"
 
 
 if __name__ == "__main__":
